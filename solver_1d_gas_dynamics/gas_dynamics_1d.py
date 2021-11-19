@@ -10,7 +10,12 @@ def gas_dynamics_1d(*args):
 
     folder_bin = os.path.join(os.path.split(__file__)[0], "bin")  # ищет папку bin, относительно текущего файла
     
-    filename_executable = os.path.join(folder_bin, "a.out")
+    filename_executable = os.path.join(folder_bin, "gas_dynamics_1d.out")
+    if not os.path.isfile(filename_executable):
+        command = ["g++", f"{folder_bin}/*.cc", "-o", filename_executable]
+        print(command)
+        subprocess.check_output(command, shell=True)
+
     filename_solution = "solution.dat"
 
     args_strings = list(map(str, args))
