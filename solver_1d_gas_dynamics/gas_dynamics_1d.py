@@ -13,8 +13,7 @@ def gas_dynamics_1d(*args):
     filename_executable = os.path.join(folder_bin, "gas_dynamics_1d.out")
     if not os.path.isfile(filename_executable):
         command = ["g++", f"{folder_bin}/*.cc", "-o", filename_executable]
-        print(command)
-        subprocess.check_output(command, shell=True)
+        subprocess.check_output(" ".join(command), shell=True, stderr=subprocess.DEVNULL)
 
     filename_solution = "solution.dat"
 
