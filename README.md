@@ -28,6 +28,6 @@ pip install -e .
 ## Use
 ```python
 # python
-import solver_1d_gas_dynamics
-result = solver_1d_gas_dynamics.gas_dynamics_1d(1, 0.25, 0, 0, 1, 0.1)
+from solver_1d_gas_dynamics.gas_dynamics_1d import gas_dynamics_1d
+result = gas_dynamics_1d(1, 0.25, 0, 0, 1, 0.1)
 ```

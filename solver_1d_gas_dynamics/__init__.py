@@ -1,1 +1,4 @@
-from .gas_dynamics_1d import gas_dynamics_1d
+import logging
+logging.basicConfig()
+
+from . import gas_dynamics_1d
