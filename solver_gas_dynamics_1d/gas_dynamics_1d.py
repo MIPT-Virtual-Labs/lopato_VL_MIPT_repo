@@ -1,15 +1,17 @@
+import logging
 import os
 import subprocess
-import numpy as np
 
-import logging
+import numpy as np
+from pydantic import BaseModel, validator
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
 def get_folder_bin():
     # ищет папку bin, относительно текущего файла
-    folder_bin = os.path.join(os.path.split(__file__)[0], "bin")  
+    folder_bin = os.path.join(os.path.split(__file__)[0], "bin")
     return folder_bin
 
 
@@ -20,7 +22,7 @@ def get_filename_executable():
 
 
 def compile():
-    
+
     folder_bin = get_folder_bin()
     filename_executable = "'" + get_filename_executable() + "'"
 
@@ -30,12 +32,7 @@ def compile():
         if filename_cc.endswith(".cc")
     ]
 
-    command = " ".join([
-        "g++",
-        *filenames_cc,
-            "-o",
-            filename_executable
-    ])
+    command = " ".join(["g++", *filenames_cc, "-o", filename_executable])
 
     msg_debug = "run command in subprocess: {}".format(command)
     logger.debug(msg=msg_debug)
@@ -51,26 +48,46 @@ def clean_folder_bin():
             os.remove(filename_full)
 
 
-def gas_dynamics_1d(*args):
+class InputParameters(BaseModel):
+    r_left: float
+    r_right: float
+    u_left: float
+    u_right: float
+    p_left: float
+    p_right: float
 
-    if len(args) != 6:
-        raise ValueError("Incorrect number of args")
+    @validator("r_left", "r_right", "p_left", "p_right")
+    def check_positive(cls, v):
+        if v <= 0:
+            raise ValueError(f"{v} is not positive")
+        return v
+
+
+def solve(p: InputParameters) -> np.ndarray:
 
     filename_executable = get_filename_executable()
     if not os.path.isfile(filename_executable):
         compile()
 
-    filename_solution = "solution.dat"
+    p_list = [p.r_left, p.r_right, p.u_left, p.u_right, p.p_left, p.p_right]
+    args_strings = list(map(str, p_list))
 
-    args_strings = list(map(str, args))
     command = " ".join(["'" + filename_executable + "'"] + args_strings)
-    
+
     msg_debug = "run command in subprocess: {}".format(command)
     logger.debug(msg=msg_debug)
-    
     subprocess.check_output(command, shell=True)
-    result = np.loadtxt(filename_solution)
 
+    filename_solution = "solution.dat"
+    solution = np.loadtxt(filename_solution)
     os.remove(filename_solution)
 
-    return result
+    if np.any(np.isnan(solution)):
+        raise RuntimeError("solution contains NaN values")
+
+    columns = "x", "r", "u", "p", "E"
+    assert solution.shape == (100, len(columns))
+
+    solution_dict = dict(zip(columns, solution.T))
+
+    return solution_dict

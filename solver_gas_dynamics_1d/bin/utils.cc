@@ -110,7 +110,7 @@ void boundary( double v_cons[M], double boun_v[M], int boun_type ) {
 }
 
 /* Инициализация вектора-решения
-   u_cons[N][M] - значения вектора консервативных переменных в центрах всех ячеек (out) 
+   u_cons[N][M] - значения вектора консервативных переменных в центрах всех ячеек (out)
    дальше идут неконсервативные параметры слева и справа от разрыва
    r_left, r_right - плотности (in)
    u_left, u_right - скорости (in)
@@ -120,7 +120,7 @@ void init_solution( double u_cons[N][M], double r_left, double r_right, double u
 
     int i;
     double v[M];
-	
+
     for ( i = 0; i < N; i++ ) {
         if ( i < CELLS_LEFT ) {
             v[0] = r_left;
@@ -133,14 +133,14 @@ void init_solution( double u_cons[N][M], double r_left, double r_right, double u
             v[2] = p_right;
         }
         convert_noncons_to_cons( v, u_cons[i] );
-    }		
+    }
 
 }
 
 /* Расчет скорости звука
    v_cons[M] - вектор консервативных переменных (in) */
 double calc_sound_velocity( double v_ncons[M] ) {
-	
+
     return ( sqrt( GAMMA * v_ncons[2] / v_ncons[0] ) );
 
 }
@@ -154,10 +154,10 @@ void calc_jacob( double v_cons[M], double jacob[M][M] ) {
     double teta, b, h;
 
     convert_cons_to_noncons( v_cons, v_ncons );
-	
+
     teta = 0.5 * v_ncons[1] * v_ncons[1];
     b = GAMMA - 1.0;
-    h = 0.5 * v_ncons[1] * v_ncons[1] + GAMMA * v_ncons[2] / v_ncons[0] / ( GAMMA - 1.0 ); 
+    h = 0.5 * v_ncons[1] * v_ncons[1] + GAMMA * v_ncons[2] / v_ncons[0] / ( GAMMA - 1.0 );
 
     jacob[0][0] = 0.0;
     jacob[0][1] = 1.0;
@@ -183,12 +183,12 @@ void calc_omega( double v_cons[M], double omega[M][M] ) {
     double teta, b, h;
 
     convert_cons_to_noncons( v_cons, v_ncons );
-	
+
     c = calc_sound_velocity( v_ncons );
-	
+
     teta = 0.5 * v_ncons[1] * v_ncons[1];
     b = GAMMA - 1.0;
-    h = 0.5 * v_ncons[1] * v_ncons[1] + GAMMA * v_ncons[2] / v_ncons[0] / ( GAMMA - 1.0 ); 
+    h = 0.5 * v_ncons[1] * v_ncons[1] + GAMMA * v_ncons[2] / v_ncons[0] / ( GAMMA - 1.0 );
 
     omega[0][0] = 1.0;
     omega[0][1] = 1.0;
@@ -214,12 +214,12 @@ void calc_omega_inverse( double v_cons[M], double omega_inverse[M][M] ) {
     double teta, b, h;
 
     convert_cons_to_noncons( v_cons, v_ncons );
-	
+
     c = calc_sound_velocity( v_ncons );
-	
+
     teta = 0.5 * v_ncons[1] * v_ncons[1];
     b = GAMMA - 1.0;
-    h = 0.5 * v_ncons[1] * v_ncons[1] + GAMMA * v_ncons[2] / v_ncons[0] / ( GAMMA - 1.0 ); 
+    h = 0.5 * v_ncons[1] * v_ncons[1] + GAMMA * v_ncons[2] / v_ncons[0] / ( GAMMA - 1.0 );
 
     omega_inverse[0][0] = 0.5 * b * ( teta + v_ncons[1] * c / b ) / pow( c, 2.0 );
     omega_inverse[0][1] = 0.5 * b * ( -v_ncons[1] - c / b ) / pow( c, 2.0 );
@@ -244,7 +244,7 @@ void calc_lambda( double v_cons[M], double lambda[M][M] ) {
     double c;				/* скорость звука */
 
     convert_cons_to_noncons( v_cons, v_ncons );
-	
+
     c = calc_sound_velocity( v_ncons );
 
     lambda[0][0] = fabs( v_ncons[1] - c );

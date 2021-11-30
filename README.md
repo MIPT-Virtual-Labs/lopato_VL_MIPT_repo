@@ -1,5 +1,3 @@
-> Пробный репозиторий, созданный Лопато АИ, который может стать рабочим для некоторых проектов С/python в рамках данной лаборатории.
-
 # README (for Linux)
 
 ## Clone
@@ -25,9 +23,18 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-## Use
-```python
-# python
-from solver_1d_gas_dynamics.gas_dynamics_1d import gas_dynamics_1d
-result = gas_dynamics_1d(1, 0.25, 0, 0, 1, 0.1)
+## Examples
+*Coming soon*
+
+## (Pre-)commit
+1. Install:
+```sh
+pip install pre-commit && pre-commit install
+```
+2. Run:
+```sh
+git add <FILES>
+pre-commit run
+git add <FIXED FILES>  # if necessary
+git commit -m "MESSAGE"
 ```

@@ -37,10 +37,10 @@ void cir_flux( double left_params[M], double right_params[M], double flux[M] ) {
     /* расчет дифференциальных потоков */
     diff_flux_cons( left_params, left_diff_flux );
     diff_flux_cons( right_params, right_diff_flux );
-		
+
     /* определение матрицы в функции потока для параметров слева от разрыва */
     cir_util( left_params, m_left );
-    
+
     /* определение матрицы в функции потока для параметров справа от разрыва */
     cir_util( right_params, m_right );
 
@@ -62,7 +62,7 @@ void cir_util( double cons_params[M], double m[M][M] ) {
 
     /* обратная к матрице из собственных векторов системы уравнений газовой динамики */
     double omega_inverse[M][M];
-	
+
     /* диагональная матрица с модулями собственных чисел системы уравнений газовой динамики */
     double lambda[M][M];
 
@@ -76,4 +76,3 @@ void cir_util( double cons_params[M], double m[M][M] ) {
     mult_matrixes( m_tmp, omega_inverse, m );
 
 }
-	

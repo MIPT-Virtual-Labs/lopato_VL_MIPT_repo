@@ -37,9 +37,9 @@ int main( int argc, char* argv[] ) {
     double xc[N];                                   /* массив координат центров ячеек сетки */
     double u_prev[N][M];                            /* вектора консервативных переменных на n-ом слое */
     double u_next[N][M];                            /* вектора консервативных переменных на (n+1)-ом слое */
-    double boun_v[M];                               /* вектор консервативных переменных для реализации граничного условия */					
+    double boun_v[M];                               /* вектор консервативных переменных для реализации граничного условия */
     double flux_left[M], flux_right[M];             /* потоки через грани расчетной ячейки */
-    double dt;                                      /* шаг по времени */						
+    double dt;                                      /* шаг по времени */
     int steps_num = 0;                              /* счетчик числа шагов */
     double curr_t = 0.0;                            /* текущее время */
 
@@ -65,7 +65,7 @@ int main( int argc, char* argv[] ) {
                 boundary( u_prev[0], boun_v, LEFT_BOUN );
 		calc_flux( boun_v, u_prev[0], flux_left );
             }
-			
+
             /* расчет потока через правую грань ячейки */
             if ( i != N-1 )
                 calc_flux( u_prev[i], u_prev[i+1], flux_right );

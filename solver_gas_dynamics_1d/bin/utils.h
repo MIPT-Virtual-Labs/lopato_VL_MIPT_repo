@@ -53,7 +53,7 @@ void diff_flux_ncons( double v_ncons[M], double flux[M] );
 void boundary( double v_cons[M], double boun_v[M], int boun_type );
 
 /* Инициализация вектора-решения
-   u_cons[N][M] - значения вектора консервативных переменных в центрах всех ячеек (out) 
+   u_cons[N][M] - значения вектора консервативных переменных в центрах всех ячеек (out)
    дальше идут неконсервативные параметры слева и справа от разрыва
    r_left, r_right - плотности (in)
    u_left, u_right - скорости (in)

@@ -49,7 +49,7 @@ double min( double a, double b ) {
 void mult_matrixes( double A[M][M], double B[M][M], double C[M][M] ) {
 
     int i, j, k;
-	
+
     for ( i = 0; i < M; i++ ) {
         for ( j = 0; j < M; j++ ) {
             C[i][j] = 0.0;
