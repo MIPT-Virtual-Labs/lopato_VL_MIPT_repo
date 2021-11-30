@@ -88,6 +88,7 @@ def solve(p: InputParameters) -> np.ndarray:
     columns = "x", "r", "u", "p", "E"
     assert solution.shape == (100, len(columns))
 
-    solution_dict = dict(zip(columns, solution.T))
+    solution_lists = [v.tolist() for v in solution.T]
+    solution_dict = dict(zip(columns, solution_lists))
 
     return solution_dict

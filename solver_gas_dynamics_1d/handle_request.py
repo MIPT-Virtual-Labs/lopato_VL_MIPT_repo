@@ -36,7 +36,7 @@ def handle_request(request_json: dict) -> dict:
 
     if problem_name != "gas_dynamics_1d":
 
-        errors = [Error(error=f"Unknown problem: {problem_name}", field="problem")]
+        errors = [Error(error=f"Unknown problem: `{problem_name}`", field="problem")]
         response = Response(status="error", errors=errors)
         return response.dict()
 

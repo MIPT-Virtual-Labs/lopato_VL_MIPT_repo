@@ -24,7 +24,7 @@ pip install -e .
 ```
 
 ## Examples
-*Coming soon*
+Check out [examples](./examples) folder.
 
 ## (Pre-)commit
 1. Install:
