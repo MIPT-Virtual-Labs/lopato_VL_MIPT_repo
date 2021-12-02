@@ -9,4 +9,8 @@ setup(
     author_email="lopato2008@mail.ru",
     include_package_data=True,
     package_data={"": ["./bin/*"]},
+    install_requires=[
+        'numpy',
+        'pydantic',
+    ],
 )
