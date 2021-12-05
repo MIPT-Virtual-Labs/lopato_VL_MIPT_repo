@@ -21,16 +21,6 @@ int main(int argc, char* argv[])
     param.E = atof(argv[6]);
     param.k = atof(argv[7]);
     
-    /*
-    param.g = _GAMMA;
-    param.E = _ACTIVATION_ENERGY;
-    param.Q = _HEAT_ENERGY;
-    param.m = _MOL_MASS;
-    param.k = _PREEXP_FACTOR;
-    param.Tf = _TEMPERETURE_FON;
-    param.pf = _PRESSURE_FON;
-    */
-    printf("%e %e %e %e %e %e %e \n", param.Tf, param.pf, param.g, param.m, param.Q, param.E, param.k );
     get_parameters_values(&param);
     
     double ZND_solution[_N_OUT][_K_OUT];
