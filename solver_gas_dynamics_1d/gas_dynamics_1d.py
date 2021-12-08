@@ -55,8 +55,10 @@ class InputParameters(BaseModel):
     u_right: float
     p_left: float
     p_right: float
+    t_end: float
+    cfl: float
 
-    @validator("r_left", "r_right", "p_left", "p_right")
+    @validator("r_left", "r_right", "p_left", "p_right", "t_end")
     def check_positive(cls, v):
         if v <= 0:
             raise ValueError(f"{v} is not positive")
@@ -69,7 +71,7 @@ def solve(p: InputParameters) -> np.ndarray:
     if not os.path.isfile(filename_executable):
         compile()
 
-    p_list = [p.r_left, p.r_right, p.u_left, p.u_right, p.p_left, p.p_right]
+    p_list = [p.r_left, p.r_right, p.u_left, p.u_right, p.p_left, p.p_right, p.t_end, p.cfl]
     args_strings = list(map(str, p_list))
 
     command = " ".join(["'" + filename_executable + "'"] + args_strings)
