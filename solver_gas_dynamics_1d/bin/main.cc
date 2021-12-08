@@ -18,7 +18,7 @@
 #include "io.h"
 
 int main( int argc, char* argv[] ) {
-    if (argc > 7 || argc < 7) {
+    if (argc > 9 || argc < 9) {
         printf("Incorrect number of arguments. Please provide density_left, density_right, velocity_left, velocity_right, pressure_left, pressure_right.\n");
         exit(EXIT_FAILURE);
     }
@@ -31,6 +31,9 @@ int main( int argc, char* argv[] ) {
 
     double p_left = atof(argv[5]);
     double p_right = atof(argv[6]);
+
+    double t_end = atof(argv[7]);
+    double cfl = atof(argv[8]);
 
     int i, j;
     double x[N+1];                                  /* массив координат узлов сетки */
@@ -50,9 +53,9 @@ int main( int argc, char* argv[] ) {
     init_solution( u_prev, r_left, r_right, u_left, u_right, p_left, p_right );
 
     /* основной цикл по времени */
-    while ( T_END - curr_t > 0 ) {
+    while ( t_end - curr_t > 0 ) {
 
-        dt = calc_time_step( x, u_prev, steps_num );
+        dt = calc_time_step( x, u_prev, steps_num, cfl );
 
         /* цикл по ячейкам */
 	for ( i = 0; i < N; i++ ) {
@@ -63,7 +66,7 @@ int main( int argc, char* argv[] ) {
             else {
                 /* обработка граничного условия */
                 boundary( u_prev[0], boun_v, LEFT_BOUN );
-		calc_flux( boun_v, u_prev[0], flux_left );
+                calc_flux( boun_v, u_prev[0], flux_left );
             }
 
             /* расчет потока через правую грань ячейки */
@@ -77,15 +80,15 @@ int main( int argc, char* argv[] ) {
 
             /* цикл по компонентам вектора */
             for ( j = 0; j < M; j++ )
-                u_next[i][j] = u_prev[i][j] - dt * ( flux_right[j] - flux_left[j] ) / ( x[i+1] - x[i] );
-            }
+            u_next[i][j] = u_prev[i][j] - dt * ( flux_right[j] - flux_left[j] ) / ( x[i+1] - x[i] );
+        }
 
-            for ( i = 0; i < N; i++ )
-                for ( j = 0; j < M; j++ )
-                    u_prev[i][j] = u_next[i][j];
+        for ( i = 0; i < N; i++ )
+            for ( j = 0; j < M; j++ )
+                u_prev[i][j] = u_next[i][j];
 
-            curr_t += dt;
-            steps_num += 1;
+        curr_t += dt;
+        steps_num += 1;
 
     }
 

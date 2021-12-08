@@ -93,6 +93,6 @@ void calc_lambda( double v_cons[M], double lambda[M][M] );
    x[N] - координаты узлов сетки (in)
    v_cons[N][M] - вектора консервативных переменных в центрах ячеек (in)
    time_step_number - номер текущего шага по времени (in) */
-double calc_time_step( double x[N], double v_cons[N][M], int time_step_number );
+double calc_time_step( double x[N], double v_cons[N][M], int time_step_number, double cfl );
 
 #endif /* __UTILS_H_ */

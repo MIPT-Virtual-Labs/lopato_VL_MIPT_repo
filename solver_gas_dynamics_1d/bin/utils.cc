@@ -269,7 +269,7 @@ void calc_lambda( double v_cons[M], double lambda[M][M] ) {
    x[N] - координаты узлов сетки (in)
    v_cons[N][M] - вектора консервативных переменных в центрах ячеек (in)
    time_step_number - номер текущего шага по времени (in) */
-double calc_time_step( double x[N], double v_cons[N][M], int time_step_number ) {
+double calc_time_step( double x[N], double v_cons[N][M], int time_step_number, double cfl ) {
 
     int i;
     double new_step = BIG_NUMBER;   /* рассчитываемый новый шаг по времени */
@@ -282,10 +282,7 @@ double calc_time_step( double x[N], double v_cons[N][M], int time_step_number ) 
         c = calc_sound_velocity( v_ncons );
         curr_step = ( x[i+1] - x[i] ) / ( fabs( v_ncons[1] ) + c );
         if ( time_step_number < N1 ) {
-            curr_step *= CFL1;
-        }
-        else {
-            curr_step *= CFL2;
+            curr_step *= cfl;
         }
         if ( curr_step < new_step )
             new_step = curr_step;
