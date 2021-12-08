@@ -58,7 +58,7 @@ class InputParameters(BaseModel):
     t_end: float
     cfl: float
 
-    @validator("r_left", "r_right", "p_left", "p_right", "t_end")
+    @validator("r_left", "r_right", "p_left", "p_right", "t_end", "cfl")
     def check_positive(cls, v):
         if v <= 0:
             raise ValueError(f"{v} is not positive")
