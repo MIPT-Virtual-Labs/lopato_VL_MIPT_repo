@@ -1,6 +1,6 @@
 from solver_utkin import handle_request
 
-# Correct request
+# Correct request (SOD problem)
 params = dict(
     r_left=1,
     r_right=0.125,
