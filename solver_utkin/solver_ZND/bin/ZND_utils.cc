@@ -7,7 +7,7 @@ double get_Arrhenius_arg(double r, double p, double E, double m)
     return ( - E * r / (p * m) );
 }
 // значение плотности ЗНД (можно вычислить через Z)
-double get_ZND_density(struct Parameters* param, double Z) 
+double get_ZND_density(struct Parameters* param, double Z)
 {
     double rf = param->rf;
     double pf = param->pf;
@@ -17,16 +17,16 @@ double get_ZND_density(struct Parameters* param, double Z)
     return ( rf * (g+1) * rf * D2 / (g * (pf + rf * D2) * func_z) );
 }
 // значение давления ЗНД (можно вычислить через Z)
-double get_ZND_pressure(struct Parameters* param, double Z) 
+double get_ZND_pressure(struct Parameters* param, double Z)
 {
     double pf = param->pf;
     double rf = param->rf;
     double D2 = param->D2;
     double g = param->g;
-    return (pf + rf * D2) / (g + 1) * (1 + sqrt(Z) * (rf * D2 - g * pf) / (pf + rf * D2)); 
+    return (pf + rf * D2) / (g + 1) * (1 + sqrt(Z) * (rf * D2 - g * pf) / (pf + rf * D2));
 }
 // значение скорости ЗНД в лабораторной системе (можно вычислить через Z)
-double get_ZND_velocity(struct Parameters* param, double Z) 
+double get_ZND_velocity(struct Parameters* param, double Z)
 {
     double pf = param->pf;
     double rf = param->rf;
@@ -36,10 +36,10 @@ double get_ZND_velocity(struct Parameters* param, double Z)
     return sqrt(pf / rf) * (1 + sqrt(Z)) * (rf * D2 - g * pf) / (sqrt(rf * pf) * D) / (g + 1.0);
 }
 // значение скорости реакции (можно вычислить через Z)
-double get_ZND_rate(struct Parameters* param, double Z) 
+double get_ZND_rate(struct Parameters* param, double Z)
 {
-    double r = get_ZND_density(param, Z); 
-    double p = get_ZND_pressure(param, Z); 
+    double r = get_ZND_density(param, Z);
+    double p = get_ZND_pressure(param, Z);
     double k = param->k;
     double E = param->E;
     double m = param->m;
@@ -64,7 +64,7 @@ double get_ZND_length_integrand(struct Parameters* param, double Z)
     double E = param->E;
     double m = param->m;
     double k = param->k;
-    double u = get_ZND_velocity(param, Z); 
+    double u = get_ZND_velocity(param, Z);
     double r = get_ZND_density(param, Z);
     double p = get_ZND_pressure(param, Z);
     double arg = get_Arrhenius_arg(r, p, E, m);
@@ -92,7 +92,7 @@ double get_ZND_length(struct Parameters* param, double Z0, double Z1, double n)
     double Itot = Stot * dZ;
     return Itot;
 }
-// заполнение массива решения 
+// заполнение массива решения
 void get_ZND_solution(struct Parameters* param, double ZND_solution[_N_OUT][_K_OUT])
 {
     double X = param->X;
@@ -108,7 +108,7 @@ void get_ZND_solution(struct Parameters* param, double ZND_solution[_N_OUT][_K_O
     ZND_solution[ii][_T_O] = get_temperature(ZND_solution[0][_R_O], ZND_solution[0][_P_O], param->m, param->R);
     ZND_solution[ii][_Z_O] = zm;
     ii++;
-    for(int m = 1; m < _N_TOT; m++) 
+    for(int m = 1; m < _N_TOT; m++)
     {
         double xm1 = m * dx;
         double zm1 = zm;
@@ -117,14 +117,14 @@ void get_ZND_solution(struct Parameters* param, double ZND_solution[_N_OUT][_K_O
         do
         {
             small_integral = get_ZND_length(param, zm, zm1, _N_SML);
-            double df_to_dz =  get_ZND_length_integrand(param, zm1); 	
+            double df_to_dz =  get_ZND_length_integrand(param, zm1);
             double f = contribution + small_integral - xm1;
             double dz = - f / df_to_dz;
             zm1 = zm1 + dz;
             eps = fabs(dz);
         } while (eps > 1e-9);
         contribution += small_integral;
-        double um1 = get_ZND_velocity(param, zm1); 
+        double um1 = get_ZND_velocity(param, zm1);
         double rm1 = get_ZND_density(param, zm1);
         double pm1 = get_ZND_pressure(param, zm1);
         double Tm1 = get_temperature(rm1, pm1, param->m, param->R);

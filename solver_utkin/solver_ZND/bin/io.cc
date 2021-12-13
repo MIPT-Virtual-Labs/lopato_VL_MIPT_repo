@@ -30,7 +30,7 @@ void write_solution( double ZND_solution[_N_OUT][_K_OUT])
     sprintf( file_name, "solution.dat" );
     // открываем или создаем файл для записи (w) в текстовом формате (t)
     f_out = fopen( file_name, "wt" );
-    // обязательно проверяем, удалось ли это сделать, иначе - выход 
+    // обязательно проверяем, удалось ли это сделать, иначе - выход
     if ( NULL == f_out )
     {
         printf( "Error - can't open file %s for writing.\n" );
@@ -42,6 +42,6 @@ void write_solution( double ZND_solution[_N_OUT][_K_OUT])
             fprintf( f_out, "%e    ", ZND_solution[i][j] );
         fprintf( f_out, "\n" );
     }
-    // правило хорошего тона программирования - закрываем открытый для записи файл 
-    fclose( f_out );            
+    // правило хорошего тона программирования - закрываем открытый для записи файл
+    fclose( f_out );
 }
