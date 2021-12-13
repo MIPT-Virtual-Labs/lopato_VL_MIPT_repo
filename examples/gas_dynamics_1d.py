@@ -1,7 +1,7 @@
 from solver_gas_dynamics_1d import handle_request
 
 # Correct request
-params = dict(r_left=1, r_right=0.25, u_left=0, u_right=0, p_left=1, p_right=0.1, t_end=0.25, cfl=0.1)
+params = dict(r_left=1, r_right=0.125, u_left=0, u_right=0, p_left=1, p_right=0.1, t_end=0.25, cfl=0.1)
 
 request = dict(problem="gas_dynamics_1d", args=params)
 response = handle_request(request)
