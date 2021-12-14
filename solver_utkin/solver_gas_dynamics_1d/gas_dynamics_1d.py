@@ -4,6 +4,7 @@ import subprocess
 
 import numpy as np
 from pydantic import BaseModel, validator
+from typing import List
 import pandas as pd
 import plotly.express as px
 

@@ -54,7 +54,7 @@ def handle_request(request_json: dict) -> dict:
 
     try:
         solution_dict = solver.solve(p)
-        figures = solver.draw(solution)
+        figures = solver.draw(solution_dict)
     except Exception as e:
         response = Response(status="failed", description=str(e))
         return response.dict()
