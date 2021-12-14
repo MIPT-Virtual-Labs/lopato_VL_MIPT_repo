@@ -14,6 +14,7 @@ class Response(BaseModel):
     errors: Optional[List[Error]]
     description: Optional[str]
     solution: Optional[dict]
+    figures: Optional[List[dict]]
     status: str
 
     @validator("status")
@@ -53,10 +54,11 @@ def handle_request(request_json: dict) -> dict:
 
     try:
         solution_dict = solver.solve(p)
+        figures = solver.draw(solution)
     except Exception as e:
         response = Response(status="failed", description=str(e))
         return response.dict()
 
-    response = Response(status="done", solution=solution_dict)
+    response = Response(status="done", figures=figures, solution=solution_dict)
     response_dict = response.dict()
     return response_dict

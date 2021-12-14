@@ -4,9 +4,16 @@ import subprocess
 
 import numpy as np
 from pydantic import BaseModel, validator
+import pandas as pd
+import plotly.express as px
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+def draw(solution: pd.DataFrame) -> List[dict]:
+    fig = px.line(solution, x="x", y="r")
+    fig_dict = fig.to_dict()
+    return [fig_dict]
 
 
 def get_folder_bin():
