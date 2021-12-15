@@ -13,8 +13,14 @@ logger.setLevel(logging.DEBUG)
 
 def draw(solution: pd.DataFrame) -> List[dict]:
     fig = px.line(solution, x="x", y="r")
-    fig_dict = fig.to_dict()
-    return [fig_dict]
+    fig_dict1 = fig.to_dict()
+    fig = px.line(solution, x="x", y="u")
+    fig_dict2 = fig.to_dict()
+    fig = px.line(solution, x="x", y="p")
+    fig_dict3 = fig.to_dict()
+    fig = px.line(solution, x="x", y="E")
+    fig_dict4 = fig.to_dict() 
+    return [fig_dict1, fig_dict2, fig_dict3, fig_dict4]
 
 
 def get_folder_bin():
