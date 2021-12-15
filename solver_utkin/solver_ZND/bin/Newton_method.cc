@@ -1,8 +1,8 @@
 /*
     функция - метод Ньютона решения системы
     На входе:
-        
-        delta_x - шаг 
+
+        delta_x - шаг
         vector_0 - предыдущий (известный узел)
     На выходе:
         vector - неизвестный узел
@@ -25,5 +25,5 @@ void function_Newton_method(double *vector_0, double *vector, double delta_x)
             A_matrix[i][j] = function_Newton_method(A_matrix[i - 1], delta_x)
         }
     }
-    
+
 }*/

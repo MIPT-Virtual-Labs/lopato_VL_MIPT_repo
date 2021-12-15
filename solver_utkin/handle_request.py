@@ -1,9 +1,8 @@
-from logging import error
 from typing import List, Optional
 
 from pydantic import BaseModel, ValidationError, validator
 
-from solver_gas_dynamics_1d import gas_dynamics_1d
+from solver_utkin import ZND, gas_dynamics_1d
 
 
 class Error(BaseModel):
@@ -15,6 +14,7 @@ class Response(BaseModel):
     errors: Optional[List[Error]]
     description: Optional[str]
     solution: Optional[dict]
+    figures: Optional[List[dict]]
     status: str
 
     @validator("status")
@@ -34,27 +34,31 @@ def handle_request(request_json: dict) -> dict:
 
     problem_name = request_json["problem"]
 
-    if problem_name != "gas_dynamics_1d":
+    problems = {"gas_dynamics_1d": gas_dynamics_1d, "ZND": ZND}
+
+    if problem_name not in problems:
 
         errors = [Error(error=f"Unknown problem: `{problem_name}`", field="problem")]
         response = Response(status="error", errors=errors)
         return response.dict()
 
+    solver = problems[problem_name]
     args = request_json["args"]
 
     try:
-        p = gas_dynamics_1d.InputParameters(**args)
+        p = solver.InputParameters(**args)
     except ValidationError as ve:
         errors = [Error(error=e["msg"], field=e["loc"][0]) for e in ve.errors()]
         response = Response(status="error", errors=errors)
         return response.dict()
 
     try:
-        solution_dict = gas_dynamics_1d.solve(p)
+        solution_dict = solver.solve(p)
+        figures = solver.draw(solution_dict)
     except Exception as e:
         response = Response(status="failed", description=str(e))
         return response.dict()
 
-    response = Response(status="done", solution=solution_dict)
+    response = Response(status="done", figures=figures, solution=solution_dict)
     response_dict = response.dict()
     return response_dict

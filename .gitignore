@@ -139,4 +139,4 @@ cython_debug/
 
 
 # custom paths
-solver_gas_dynamics_1d/bin/*.out
+*.out

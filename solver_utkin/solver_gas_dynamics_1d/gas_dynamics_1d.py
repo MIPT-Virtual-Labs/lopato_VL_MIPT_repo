@@ -4,9 +4,23 @@ import subprocess
 
 import numpy as np
 from pydantic import BaseModel, validator
+from typing import List
+import pandas as pd
+import plotly.express as px
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
+
+def draw(solution: pd.DataFrame) -> List[dict]:
+    fig = px.line(solution, x="x", y="r")
+    fig_dict1 = fig.to_dict()
+    fig = px.line(solution, x="x", y="u")
+    fig_dict2 = fig.to_dict()
+    fig = px.line(solution, x="x", y="p")
+    fig_dict3 = fig.to_dict()
+    fig = px.line(solution, x="x", y="E")
+    fig_dict4 = fig.to_dict() 
+    return [fig_dict1, fig_dict2, fig_dict3, fig_dict4]
 
 
 def get_folder_bin():
@@ -71,7 +85,16 @@ def solve(p: InputParameters) -> np.ndarray:
     if not os.path.isfile(filename_executable):
         compile()
 
-    p_list = [p.r_left, p.r_right, p.u_left, p.u_right, p.p_left, p.p_right, p.t_end, p.cfl]
+    p_list = [
+        p.r_left,
+        p.r_right,
+        p.u_left,
+        p.u_right,
+        p.p_left,
+        p.p_right,
+        p.t_end,
+        p.cfl,
+    ]
     args_strings = list(map(str, p_list))
 
     command = " ".join(["'" + filename_executable + "'"] + args_strings)
