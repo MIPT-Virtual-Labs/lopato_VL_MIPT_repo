@@ -33,7 +33,7 @@ void write_solution( double ZND_solution[_N_OUT][_K_OUT])
     // обязательно проверяем, удалось ли это сделать, иначе - выход
     if ( NULL == f_out )
     {
-        printf( "Error - can't open file %s for writing.\n" );
+        printf( "Error - can't open file solution.dat for writing.\n" );
         exit( EXIT_FAILURE );
     }
     for(int i = 0; i < _N_OUT; i++)
