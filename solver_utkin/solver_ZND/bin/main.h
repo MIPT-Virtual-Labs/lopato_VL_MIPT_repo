@@ -28,7 +28,7 @@
 #define _Z_H 1
 #define _Z_M 0.5
 #define _Z_L 0.001
-
+/*
 #define _PREEXP_FACTOR 6.85e+9
 #define _HEAT_ENERGY 5.02e+6
 #define _GAMMA 1.17
@@ -36,7 +36,7 @@
 #define _MOL_MASS 0.021
 #define _TEMPERETURE_FON 290
 #define _PRESSURE_FON 100000
-
+*/
 /*
 #define _PREEXP_FACTOR 1.0e+9
 #define _HEAT_ENERGY 2.94e+6
