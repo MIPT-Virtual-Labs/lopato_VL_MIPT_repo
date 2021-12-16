@@ -9,8 +9,7 @@
     Автор: Лопато А.И.
     Дата написания: 21.01.2014
 */
-#include "head.h"
-#include "math_utils.h"
+#include "main.h"
 
 /*
 void function_Newton_method(double *vector_0, double *vector, double delta_x)
